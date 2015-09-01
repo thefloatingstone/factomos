@@ -1,4 +1,4 @@
-API Factomos V1.22 - 24/08/2015
+API Factomos V1.23 - 01/09/2015
 ==============================
 
 # 1. Introduction
@@ -1475,6 +1475,48 @@ Code d'erreur | Message d'erreur                          | Description
 POST REQUEST
 - action=transformEstimate
 - estimate_id=67
+
+JSON RESULT
+```json
+{
+    "invoice_id":"5782",
+    "invoice_formated_number":"F1465",
+    "invoice_document_key":"i5u5pHLyBI4pizucVdo6",
+    "invoice_date":"2012-05-01",
+    "client_id":"19",
+    "error":{
+        "code":0,
+        "message":"OK"
+    }
+}
+```
+
+# 26. Créer un avoir à partir d'une facture
+
+## Paramètres en entrée
+
+- action=createCreditNote, (OBLIGATOIRE)
+- invoice_id=<invoice_id>, (OBLIGATOIRE)
+
+## Code d'erreurs
+
+Code d'erreur | Message d'erreur                          | Description
+------------: | :---------------------------------------- | :----------------
+0             |                                           | Pas d'erreur, la requête s'est bien passée
+-1            | Missing Token                             | Le Champ "token" est manquant, or il est obligatoire
+-2            | Missing Crypted Request                   | Le Champ "crequest" est manquant, or il est obligatoire
+-3            | Invalid Token                             | Le Token est invalide, il n'existe pas dans la base Factomos
+-4            | Too many API calls for the day            | Vous avez dépassé le nombre maximum d'appels API pour la journée (par défaut limité à 500)
+-5            | Invalid Crypted Request                   | La requête n'a pas pu être décryptée, le champ crequest est invalide
+-6            | Action not found or invalid               | Le Champ "action" est manquant, or il est obligatoire
+-17           | Missing parameter invoice_id              | Le Champ "invoice_id" est manquant, or il est obligatoire
+-20           | Invoice not found                         | La facture avec cet id n'existe pas dans la base Factomos
+
+## Exemple
+
+POST REQUEST
+- action=createCreditNote
+- invoice_id=67
 
 JSON RESULT
 ```json
