@@ -1,4 +1,4 @@
-API Factomos V1.23 - 01/09/2015
+API Factomos V1.24 - 11/09/2015
 ==============================
 
 # 1. Introduction
@@ -245,7 +245,54 @@ JSON RESULT
 }
 ```
 
-# 4. Création de session sur Factomos.com via l'API (SSO)
+# 4. Mise à jour du statut d'un compte Factomos via l'API
+
+## Paramètres en entrée
+
+POST REQUEST
+ - action=updateAccount (OBLIGATOIRE)
+ - company_id, Identifiant du compte Factomos à supprimer (OBLIGATOIRE)
+ - subscription_status, Statut du compte (active, readonly, blocked) (OBLIGATOIRE)
+
+## Paramètres en sortie
+
+ - aucun
+
+## Code d'erreurs
+
+Code d'erreur | Message d'erreur                          | Description
+------------: | :---------------------------------------- | :----------------
+0             |                                           | Pas d'erreur, la requête s'est bien passée
+-1            | Missing Token                             | Le Champ "token" est manquant, or il est obligatoire
+-2            | Missing Crypted Request                   | Le Champ "crequest" est manquant, or il est obligatoire
+-3            | Invalid Token                             | Le Token est invalide, il n'existe pas dans la base Factomos
+-4            | Too many API calls for the day            | Vous avez dépassé le nombre maximum d'appels API pour la journée (par défaut limité à 500)
+-5            | Invalid Crypted Request                   | La requête n'a pas pu être décryptée, le champ crequest est invalide
+-6            | Action not found or invalid               | Le Champ "action" est manquant, or il est obligatoire
+-33           | Action not authorized                     | Cette action n'est autorisée que pour les partenaires Factomos (contactez-nous)
+-35           | Missing parameter company_id              | Le Champ "company_id" est manquant, or il est obligatoire
+-36           | Account not found                         | Le compte avec l'identifiant "company_id" n'existe pas dans la base
+-37           | Missing parameter subscription_status     | Le Champ "subscription_status" est manquant, or il est obligatoire
+-38           | Parameter subscription_status invalid     | Le Champ "subscription_status" est invalide, il doit être égal à une des valeurs suivantes : active, readonly, blocked
+
+## Exemple
+
+POST REQUEST
+ - action=updateAccount
+ - company_id=9999
+ - subscription_status=readonly
+
+JSON RESULT
+```json
+{
+    "error":{
+        "code":0,
+        "message":"OK"
+    }
+}
+```
+
+# 5. Création de session sur Factomos.com via l'API (SSO)
 
 ## Paramètres en entrée
 
@@ -313,7 +360,7 @@ JSON RESULT
 ```
 
 
-# 5. Contrôle de la session en cours (SSO)
+# 6. Contrôle de la session en cours (SSO)
 
 HTTP GET vers l'URL https://app.factomos.com/api/session/check
 
@@ -341,7 +388,7 @@ Code d'erreur | Message d'erreur                          | Description
 -34           | No session                                | Il n'y a pas de session en cours
 
 
-# 6. Obtenir le couple token, secret, via le formulaire d'autorisation d'Applications tierces
+# 7. Obtenir le couple token, secret, via le formulaire d'autorisation d'Applications tierces
 
 Il faut créer un bouton du genre = « Connecter avec Factomos » qui doit faire l’action suivante :
 
@@ -360,7 +407,7 @@ Ceci va ouvrir une popup d’authentification, si le login et le mot de passe so
 Ensuite le popup est fermé
 
 
-# 7. Le webhook
+# 8. Le webhook
 
 A chaque action, un contenu JSON va être envoyé en RAW POST vers l'URL de webhook qui a été précisée lors de la connexion de l'appli tierce.
 
@@ -455,7 +502,7 @@ Voici un exemple de POST lors de la création d'un devis.
 ```
 
 
-# 8. Afficher un formulaire de création de devis (au sein de factomos.com) pré-rempli
+# 9. Afficher un formulaire de création de devis (au sein de factomos.com) pré-rempli
 
 Faire un POST vers la page https://app.factomos.com/creer-devis avec les paramètres suivants :
 
@@ -466,7 +513,7 @@ Faire un POST vers la page https://app.factomos.com/creer-devis avec les paramè
 - `estimate_comment` (Champ « commentaire » du devis)
 - `custom`, un champ pour y mettre vos variables, ce dernier sera renvoyé tel quel dans la notification au webhook
 
-# 9. Récupérer les infos d'un client à partir de son id
+# 10. Récupérer les infos d'un client à partir de son id
 
 ## Paramètres en entrée
  - action=getClient, (OBLIGATOIRE)
@@ -530,7 +577,7 @@ JSON RESULT
     
 
 
-# 10. Créer un client
+# 11. Créer un client
 
 ## Paramètres en entrée
 
@@ -604,7 +651,7 @@ JSON RESULT
 }
 ```
 
-# 11. Récupérer les infos d'un service à partir de son id
+# 12. Récupérer les infos d'un service à partir de son id
 
 ## Paramètres en entrée
 
@@ -653,7 +700,7 @@ JSON RESULT
 }
 ```
     
-# 12. Créer un service
+# 13. Créer un service
 
 ## Paramètres en entrée
 
@@ -704,7 +751,7 @@ JSON RESULT
 }
 ```
 
-# 13. Créer une facture
+# 14. Créer une facture
 
 ## Paramètres en entrée
 
@@ -787,7 +834,7 @@ JSON RESULT
 
 Lien vers la facture : https://app.factomos.com/i5u5pHLyBI4pizucVdo6
 
-# 14. Récupérer une facture à partir de son id
+# 15. Récupérer une facture à partir de son id
 
 ## Paramètres en entrée
 
@@ -922,7 +969,7 @@ JSON RESULT
 }
 ```
 
-# 15. Editer une facture
+# 16. Editer une facture
 
 ## Paramètres en entrée
 
@@ -999,7 +1046,7 @@ JSON RESULT
 }
 ```
 
-# 16. Envoyer une facture
+# 17. Envoyer une facture
 
 ## Paramètres en entrée
 
@@ -1040,7 +1087,7 @@ JSON RESULT
 }
 ```
 
-# 17. Créer un règlement
+# 18. Créer un règlement
 
 ## Paramètres en entrée
 
@@ -1053,7 +1100,7 @@ JSON RESULT
 - numero_remise
 - numero_cheque
 
-# 18. Editer un règlement
+# 19. Editer un règlement
 
 ## Paramètres en entrée
 
@@ -1082,7 +1129,7 @@ Code d'erreur | Message d'erreur                                                
 -20           | Invoice not found                                                           | La facture avec cet id n'existe pas dans la base Factomos
 -21           | Several payments for this invoice, you have to add the parameter payment_id | Vous devez ajouter le champ "payment_id" car il y a plusieurs règlements pour cette facture
 
-# 19. Supprimer tous les règlements d'une facture
+# 20. Supprimer tous les règlements d'une facture
 
 ## Paramètres en entrée
 
@@ -1104,7 +1151,7 @@ Code d'erreur | Message d'erreur                          | Description
 -17           | Missing parameter invoice_id              | Le Champ "invoice_id" est manquant, or il est obligatoire
 -20           | Invoice not found                         | La facture avec cet id n'existe pas dans la base Factomos
 
-# 20. Créer une dépense
+# 21. Créer une dépense
 
 ## Paramètres en entrée
 
@@ -1161,7 +1208,7 @@ JSON RESULT
 }
 ```
 
-# 21. Editer une dépense
+# 22. Editer une dépense
 
 ## Paramètres en entrée
 
@@ -1224,7 +1271,7 @@ JSON RESULT
 ```
 
 
-# 22. Récupérer une dépense
+# 23. Récupérer une dépense
 
 ## Paramètres en entrée
 
@@ -1274,7 +1321,7 @@ JSON RESULT
 }
 ```
 
-# 23. Récupérer un devis à partir de son id
+# 24. Récupérer un devis à partir de son id
 
 ## Paramètres en entrée
 
@@ -1376,7 +1423,7 @@ JSON RESULT
 }
 ```
 
-# 24. Créer un devis
+# 25 Créer un devis
 
 ## Paramètres en entrée
 
@@ -1449,7 +1496,7 @@ JSON RESULT
 
 Lien vers le devis : https://app.factomos.com/e5u5pHLyBI4pizucVdo6
 
-# 25. Créer une facture à partir d'un devis
+# 26. Créer une facture à partir d'un devis
 
 ## Paramètres en entrée
 
@@ -1491,7 +1538,7 @@ JSON RESULT
 }
 ```
 
-# 26. Créer un avoir à partir d'une facture
+# 27. Créer un avoir à partir d'une facture
 
 ## Paramètres en entrée
 
