@@ -127,13 +127,13 @@ On peut aussi rajouter les paramètres suivants pour créer un couple token/secr
  - app_name: le nom de l’appli
  - app_description: une courte description de l’appli.
  - app_icon: URL de l'icône de l'application (40px x 40px), optionnel
- - webhook_url: URL qui va être notifiée via un POST (cf # 7.) à chaque action faite dans Factomos
+ - webhook_url: URL qui va être notifiée via un POST (cf # 8.) à chaque action faite dans Factomos
 
 ## Paramètres en sortie
 
  - company_id, l'identifiant de la société,
  - password, si aucun mot de passe n'était présent dans la requête alors celui-ci sera présent avec une valeur générée aléatoirement
- - auth_token, Token d'authentification utilisable une fois (cf # 4.)
+ - auth_token, Token d'authentification utilisable une fois (cf # 5.)
 
 Si des paramètres API ont été rajoutés à la requête alors on aura les paramètres suivants dans la réponse:
 
@@ -401,7 +401,7 @@ Les paramètres dans l’URL sont les suivants :
 - app_name: le nom de l’appli
 - app_description: une courte description de l’appli.
 - app_icon: URL de l'icône de l'application (40px x 40px), optionnel
-- webhook_url: URL qui va être notifiée via un POST (cf # 7.) à chaque action faite dans Factomos
+- webhook_url: URL qui va être notifiée via un POST (cf # 8.) à chaque action faite dans Factomos
 
 Ceci va ouvrir une popup d’authentification, si le login et le mot de passe sont corrects, alors FACTOMOS va faire un POST vers l’url de call_back en envoyant les paramètres api_key, et api_secret.
 Ensuite le popup est fermé
