@@ -1,4 +1,4 @@
-API Factomos V1.24 - 11/09/2015
+API Factomos V1.25 - 22/10/2015
 ==============================
 
 # 1. Introduction
@@ -969,7 +969,196 @@ JSON RESULT
 }
 ```
 
-# 16. Editer une facture
+
+# 16. Récupérer la liste des factures à partir de leur statut
+
+Permet de récupérer une liste de facture au maximum 50 (avec un index de pagination).
+
+Voici la liste des statuts disponibles :
+
+ - 'avoir' : facture d'avoir,
+ - 'later' : facture en retard de règlement,
+ - 'paid' : facture réglée entièrement,
+ - 'paid-avoir' : facture soldée entièrement par un avoir,
+ - 'partially-paid' : facture réglée en partie,
+ - 'partially-paid-avoir' : facture soldée en partie par un avoir,
+ - 'pending' : facture en attente de réglement
+
+## Paramètres en entrée
+
+- action=listInvoice, (OBLIGATOIRE)
+- invoice_status=<invoice_id>, (OBLIGATOIRE)
+- page_index=<page_index>, (OPTIONNEL)
+
+## Paramètres en sortie
+
+- Des infos sur la pagination dans l'objet 'pagination'
+- Un tableau des factures 
+
+## Code d'erreurs
+
+Code d'erreur | Message d'erreur                          | Description
+------------: | :---------------------------------------- | :----------------
+0             |                                           | Pas d'erreur, la requête s'est bien passée
+-1            | Missing Token                             | Le Champ "token" est manquant, or il est obligatoire
+-2            | Missing Crypted Request                   | Le Champ "crequest" est manquant, or il est obligatoire
+-3            | Invalid Token                             | Le Token est invalide, il n'existe pas dans la base Factomos
+-4            | Too many API calls for the day            | Vous avez dépassé le nombre maximum d'appels API pour la journée (par défaut limité à 500)
+-5            | Invalid Crypted Request                   | La requête n'a pas pu être décryptée, le champ crequest est invalide
+-6            | Action not found or invalid               | Le Champ "action" est manquant, or il est obligatoire
+-39           | Missing parameter invoice_status          | Le Champ "invoice_status" est manquant, or il est obligatoire
+-40           | Invalid parameter invoice_status          | Le Champ "invoice_status" est invalide, il doit correspondre à une des valeurs suivantes : 'avoir', 'later', 'paid', 'paid-avoir', 'partially-paid', 'partially-paid-avoir', 'pending'
+-41           | Invalid parameter page_index              | Le Champ "page_index" est invalide, il ne doit pas être suppérieur au nombre total de factures
+
+## Exemple
+
+POST REQUEST
+- action=listInvoice
+- invoice_status=later
+- page_index=50
+
+JSON RESULT
+```json
+{
+    "pagination":{
+        "first_row":"50",
+        "last_row":53,
+        "total_invoices":54
+    },
+        "invoices":[
+        {
+            "invoice_formated_number":"F06150193",
+            "client_id":"76577",
+            "articleList":[
+            ],
+            "invoice_status":"later",
+            "document_key":false,
+            "document_title":"Facture",
+            "estimate_id":"0",
+            "exists":true,
+            "payment_amount_total":"0",
+            "id":"154735",
+            "invoice_type":"invoice",
+            "invoice_formated_year":"2015",
+            "client_company_name":"Bob",
+            "invoice_paid_mention":"pay_before",
+            "is_exported":"1",
+            "is_recurring":"0",
+            "figures_total_withoutvat":"-150",
+            "figures_total_vat":"-30",
+            "figures_total_withvat":"-180",
+            "figures_paid":"0",
+            "figures_due":"-180",
+            "downpayment_percent":"0",
+            "downpayment_amount":"0",
+            "downpayment_paid_mention":"paid",
+            "downpayment_term":null,
+            "invoice_tags":"",
+            "unix_timestamp":"1434664800",
+            "payment_term_fr":"19\/07\/15"
+        },
+        {
+            "invoice_formated_number":"F06150191",
+            "client_id":"53037",
+            "articleList":[
+            ],
+            "invoice_status":"later",
+            "document_key":false,
+            "document_title":"Facture",
+            "estimate_id":"0",
+            "exists":true,
+            "payment_amount_total":"0",
+            "id":"154718",
+            "invoice_type":"invoice",
+            "invoice_formated_year":"2015",
+            "client_company_name":"Atelier du Sourcil",
+            "invoice_paid_mention":"pay_before",
+            "is_exported":"1",
+            "is_recurring":"0",
+            "figures_total_withoutvat":"18.43",
+            "figures_total_vat":"3.69",
+            "figures_total_withvat":"22.12",
+            "figures_paid":"0",
+            "figures_due":"22.12",
+            "downpayment_percent":"0",
+            "downpayment_amount":"0",
+            "downpayment_paid_mention":"paid",
+            "downpayment_term":null,
+            "invoice_tags":"",
+            "unix_timestamp":"1434664800",
+            "payment_term_fr":"19\/07\/15"
+        },
+        {
+            "invoice_formated_number":"F06150189",
+            "client_id":"4458",
+            "articleList":[
+            ],
+            "invoice_status":"later",
+            "document_key":false,
+            "document_title":"Facture",
+            "estimate_id":"0",
+            "exists":true,
+            "payment_amount_total":"0",
+            "id":"154714",
+            "invoice_type":"invoice",
+            "invoice_formated_year":"2015",
+            "client_company_name":"Pampy",
+            "invoice_paid_mention":"pay_before",
+            "is_exported":"1",
+            "is_recurring":"0",
+            "figures_total_withoutvat":"400",
+            "figures_total_vat":"80",
+            "figures_total_withvat":"480",
+            "figures_paid":"0",
+            "figures_due":"480",
+            "downpayment_percent":"0",
+            "downpayment_amount":"0",
+            "downpayment_paid_mention":"paid",
+            "downpayment_term":null,
+            "invoice_tags":"",
+            "unix_timestamp":"1434664800",
+            "payment_term_fr":"19\/07\/15"
+        },
+        {
+            "invoice_formated_number":"F06150187",
+            "client_id":"6230",
+            "articleList":[
+            ],
+            "invoice_status":"later",
+            "document_key":false,
+            "document_title":"FACTURE D'ACOMPTE",
+            "estimate_id":"41091",
+            "exists":true,
+            "payment_amount_total":"0",
+            "id":"154251",
+            "invoice_type":"down-payment",
+            "invoice_formated_year":"2015",
+            "client_company_name":"FMI",
+            "invoice_paid_mention":"pay_before",
+            "is_exported":"1",
+            "is_recurring":"0",
+            "figures_total_withoutvat":"416.67",
+            "figures_total_vat":"83.33",
+            "figures_total_withvat":"500",
+            "figures_paid":"0",
+            "figures_due":"500",
+            "downpayment_percent":"0",
+            "downpayment_amount":"0",
+            "downpayment_paid_mention":"paid",
+            "downpayment_term":null,
+            "invoice_tags":"",
+            "unix_timestamp":"1434492000",
+            "payment_term_fr":"17\/07\/15"
+        }
+    ],
+    "error":{
+    "code":0,
+    "message":"OK"
+    }
+}
+```
+
+# 17. Editer une facture
 
 ## Paramètres en entrée
 
@@ -1046,7 +1235,7 @@ JSON RESULT
 }
 ```
 
-# 17. Envoyer une facture
+# 18. Envoyer une facture
 
 ## Paramètres en entrée
 
@@ -1087,7 +1276,7 @@ JSON RESULT
 }
 ```
 
-# 18. Créer un règlement
+# 19. Créer un règlement
 
 ## Paramètres en entrée
 
@@ -1100,7 +1289,7 @@ JSON RESULT
 - numero_remise
 - numero_cheque
 
-# 19. Editer un règlement
+# 20. Editer un règlement
 
 ## Paramètres en entrée
 
@@ -1129,7 +1318,7 @@ Code d'erreur | Message d'erreur                                                
 -20           | Invoice not found                                                           | La facture avec cet id n'existe pas dans la base Factomos
 -21           | Several payments for this invoice, you have to add the parameter payment_id | Vous devez ajouter le champ "payment_id" car il y a plusieurs règlements pour cette facture
 
-# 20. Supprimer tous les règlements d'une facture
+# 21. Supprimer tous les règlements d'une facture
 
 ## Paramètres en entrée
 
@@ -1151,7 +1340,7 @@ Code d'erreur | Message d'erreur                          | Description
 -17           | Missing parameter invoice_id              | Le Champ "invoice_id" est manquant, or il est obligatoire
 -20           | Invoice not found                         | La facture avec cet id n'existe pas dans la base Factomos
 
-# 21. Créer une dépense
+# 22. Créer une dépense
 
 ## Paramètres en entrée
 
@@ -1208,7 +1397,7 @@ JSON RESULT
 }
 ```
 
-# 22. Editer une dépense
+# 23. Editer une dépense
 
 ## Paramètres en entrée
 
@@ -1271,7 +1460,7 @@ JSON RESULT
 ```
 
 
-# 23. Récupérer une dépense
+# 24. Récupérer une dépense
 
 ## Paramètres en entrée
 
@@ -1321,7 +1510,7 @@ JSON RESULT
 }
 ```
 
-# 24. Récupérer un devis à partir de son id
+# 25. Récupérer un devis à partir de son id
 
 ## Paramètres en entrée
 
@@ -1423,7 +1612,7 @@ JSON RESULT
 }
 ```
 
-# 25 Créer un devis
+# 26 Créer un devis
 
 ## Paramètres en entrée
 
@@ -1496,7 +1685,7 @@ JSON RESULT
 
 Lien vers le devis : https://app.factomos.com/e5u5pHLyBI4pizucVdo6
 
-# 26. Créer une facture à partir d'un devis
+# 27. Créer une facture à partir d'un devis
 
 ## Paramètres en entrée
 
@@ -1538,7 +1727,7 @@ JSON RESULT
 }
 ```
 
-# 27. Créer un avoir à partir d'une facture
+# 28. Créer un avoir à partir d'une facture
 
 ## Paramètres en entrée
 
