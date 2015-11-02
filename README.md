@@ -1,5 +1,5 @@
-API Factomos V1.25 - 22/10/2015
-==============================
+API Factomos V1.26 - 02/11/2015
+===============================
 
 # 1. Introduction
 
@@ -1276,7 +1276,85 @@ JSON RESULT
 }
 ```
 
-# 19. Créer un règlement
+# 19. Récupérer l'historique des emails d'une facture
+
+## Paramètres en entrée
+
+- action=getInvoiceMailHistory, (OBLIGATOIRE)
+- invoice_id=<invoice_id>, (OBLIGATOIRE)
+
+## Code d'erreurs
+
+Code d'erreur | Message d'erreur                          | Description
+------------: | :---------------------------------------- | :----------------
+0             |                                           | Pas d'erreur, la requête s'est bien passée
+-1            | Missing Token                             | Le Champ "token" est manquant, or il est obligatoire
+-2            | Missing Crypted Request                   | Le Champ "crequest" est manquant, or il est obligatoire
+-3            | Invalid Token                             | Le Token est invalide, il n'existe pas dans la base Factomos
+-4            | Too many API calls for the day            | Vous avez dépassé le nombre maximum d'appels API pour la journée (par défaut limité à 500)
+-5            | Invalid Crypted Request                   | La requête n'a pas pu être décryptée, le champ crequest est invalide
+-6            | Action not found or invalid               | Le Champ "action" est manquant, or il est obligatoire
+-17           | Missing parameter invoice_id              | Le Champ "invoice_id" est manquant, or il est obligatoire
+-20           | Invoice not found                         | La facture avec cet id n'existe pas dans la base Factomos
+
+## Exemple
+
+POST REQUEST
+- action=getInvoiceMailHistory
+- invoice_id=999
+
+JSON RESULT
+```json
+{
+    "invoice-emails":[
+        {"id":"77","invoice_id":"555","template_type":"reminder3","email_to":"mail@example.com","email_subject":"my subject","email_content":"my content","email_date":"2015-11-02 12:49:31","email_attachment":"","email_viewed":"0"},
+        {"id":"88","invoice_id":"555","template_type":"reminder3","email_to":"mail@example.com","email_subject":"my subject2","email_content":"my content 2","email_date":"2015-11-02 12:49:31","email_attachment":"","email_viewed":"0"}
+    ],
+    "error":{
+        "code":0,
+        "message":"OK"
+    }
+}
+```
+
+# 20. Récupérer la liste des modèles de mails
+
+## Paramètres en entrée
+
+- action=listEmailTemplates, (OBLIGATOIRE)
+
+## Code d'erreurs
+
+Code d'erreur | Message d'erreur                          | Description
+------------: | :---------------------------------------- | :----------------
+0             |                                           | Pas d'erreur, la requête s'est bien passée
+-1            | Missing Token                             | Le Champ "token" est manquant, or il est obligatoire
+-2            | Missing Crypted Request                   | Le Champ "crequest" est manquant, or il est obligatoire
+-3            | Invalid Token                             | Le Token est invalide, il n'existe pas dans la base Factomos
+-4            | Too many API calls for the day            | Vous avez dépassé le nombre maximum d'appels API pour la journée (par défaut limité à 500)
+-5            | Invalid Crypted Request                   | La requête n'a pas pu être décryptée, le champ crequest est invalide
+-6            | Action not found or invalid               | Le Champ "action" est manquant, or il est obligatoire
+
+## Exemple
+
+POST REQUEST
+- action=listEmailTemplates
+
+JSON RESULT
+```json
+{
+    "email-templates":[
+        {"id":"333","company_id":"550","signature_id":"444","template_name":"Envoi devis","template_type":"estimate","template_subject":"xcvxvvxc","template_message":"sdfsfsdf","template_attachment_doc":"0"}
+        {"id":"335","company_id":"550","signature_id":"445","template_name":"Envoi facture","template_type":"invoice","template_subject":"xcvxvvxc","template_message":"sdfsfsdf","template_attachment_doc":"0"},
+    ],
+    "error":{
+        "code":0,
+        "message":"OK"
+    }
+}
+```
+
+# 21. Créer un règlement
 
 ## Paramètres en entrée
 
@@ -1289,7 +1367,7 @@ JSON RESULT
 - numero_remise
 - numero_cheque
 
-# 20. Editer un règlement
+# 22. Editer un règlement
 
 ## Paramètres en entrée
 
@@ -1318,7 +1396,7 @@ Code d'erreur | Message d'erreur                                                
 -20           | Invoice not found                                                           | La facture avec cet id n'existe pas dans la base Factomos
 -21           | Several payments for this invoice, you have to add the parameter payment_id | Vous devez ajouter le champ "payment_id" car il y a plusieurs règlements pour cette facture
 
-# 21. Supprimer tous les règlements d'une facture
+# 23. Supprimer tous les règlements d'une facture
 
 ## Paramètres en entrée
 
@@ -1340,7 +1418,7 @@ Code d'erreur | Message d'erreur                          | Description
 -17           | Missing parameter invoice_id              | Le Champ "invoice_id" est manquant, or il est obligatoire
 -20           | Invoice not found                         | La facture avec cet id n'existe pas dans la base Factomos
 
-# 22. Créer une dépense
+# 24. Créer une dépense
 
 ## Paramètres en entrée
 
@@ -1397,7 +1475,7 @@ JSON RESULT
 }
 ```
 
-# 23. Editer une dépense
+# 25. Editer une dépense
 
 ## Paramètres en entrée
 
@@ -1460,7 +1538,7 @@ JSON RESULT
 ```
 
 
-# 24. Récupérer une dépense
+# 26. Récupérer une dépense
 
 ## Paramètres en entrée
 
@@ -1510,7 +1588,7 @@ JSON RESULT
 }
 ```
 
-# 25. Récupérer un devis à partir de son id
+# 27. Récupérer un devis à partir de son id
 
 ## Paramètres en entrée
 
@@ -1612,7 +1690,7 @@ JSON RESULT
 }
 ```
 
-# 26 Créer un devis
+# 28 Créer un devis
 
 ## Paramètres en entrée
 
@@ -1685,7 +1763,7 @@ JSON RESULT
 
 Lien vers le devis : https://app.factomos.com/e5u5pHLyBI4pizucVdo6
 
-# 27. Créer une facture à partir d'un devis
+# 29. Créer une facture à partir d'un devis
 
 ## Paramètres en entrée
 
@@ -1727,7 +1805,7 @@ JSON RESULT
 }
 ```
 
-# 28. Créer un avoir à partir d'une facture
+# 30. Créer un avoir à partir d'une facture
 
 ## Paramètres en entrée
 
