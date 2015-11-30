@@ -583,7 +583,7 @@ JSON RESULT
 ## Paramètres en entrée
 
 - action=createClient, (OBLIGATOIRE)
-- category
+- category, (OBLIGATOIRE) Must be one of the following values (client, fournisseur, prospect)
 - client_company_name, (OBLIGATOIRE)
 - client_reference
 - client_contact_lastname
@@ -623,7 +623,7 @@ Code d'erreur | Message d'erreur                          | Description
 
 POST REQUEST
 - action=createClient
-- category=client
+- category=client, Must be one of the following values (client, fournisseur, prospect)
 - client_company_name=name
 - client_reference=reference
 - client_contact_lastname=greg
